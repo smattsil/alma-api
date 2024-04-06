@@ -3,5 +3,5 @@ from dataclasses import dataclass
 
 @dataclass
 class PastGpa:
-    grade: str
+    label: str
     gpa: str

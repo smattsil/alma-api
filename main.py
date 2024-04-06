@@ -1,6 +1,7 @@
 from typing import Union
 from app.endpoints.verify import verify
 from app.endpoints.currentgradeinfo import current_grade_info
+from app.endpoints.pastgradeinfo import past_grade_info
 
 from fastapi import FastAPI
 
@@ -22,5 +23,9 @@ def read_item(school: str, username: str, password: str):
     return current_grade_info(school, username, password)
 
 
-# @app.get("/pastgradeinfo")
+@app.get("/pastgradeinfo")
+def read_item(school: str, username: str, password: str):
+    return past_grade_info(school, username, password)
+
+
 # @app.get("/studentinfo")
