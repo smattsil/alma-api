@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 from app.models.subject import Category, Assignment, Subject
 from app.models.rubric import rubric
+from app.formatters.format import format_subject_name, format_name, unpair_grade_percentage
 
 
 def current_grade_info(school: str, username: str, password: str):
@@ -31,7 +32,7 @@ def current_grade_info(school: str, username: str, password: str):
             # skip if it's the Homeroom row
             if "Homeroom" in format_subject_name(list(subject.a.stripped_strings)[0]): continue
             name = format_subject_name(list(subject.a.stripped_strings)[0])
-            teacher = format_teacher_name(subject.find(class_="teacher snug").get_text(strip=True))
+            teacher = format_name(subject.find(class_="teacher snug").get_text(strip=True))
 
             # adding the weight
             weight = weights_dictionary[name]
@@ -130,16 +131,3 @@ def fetch_assignments(session, url) -> list[Assignment]:
             Assignment(name, category, grade_as_letter, grade_as_percentage, percentage_of_grade, updated))
 
     return assignments
-
-
-def unpair_grade_percentage(pair: str) -> str:
-    list_of_pair = pair.rstrip("%)").split("(")
-    return list_of_pair[0], list_of_pair[1]
-
-
-def format_subject_name(name: str) -> str:
-    return name.split(" (")[0].rstrip(" 123456789")
-
-
-def format_teacher_name(name: str) -> str:
-    return name.lstrip(" .,")
