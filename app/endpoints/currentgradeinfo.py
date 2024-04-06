@@ -42,7 +42,7 @@ def current_grade_info(school: str, username: str, password: str):
             grade_as_letter, grade_as_percentage = unpair_grade_percentage(grade_and_percentage)
 
             # getting categories and assignments
-            subject_url = f"https://{school}.getalma.com{subject.a.get("href")}"
+            subject_url = f"https://{school}.getalma.com{subject.a.get('href')}"
             categories = fetch_categories(s, subject_url)
             assignments = fetch_assignments(s, subject_url)
 
