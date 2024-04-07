@@ -11,7 +11,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Zexsys API Version": "0.0.1"}
+    return {"Zexsys API Version": "0.0.1-async"}
 
 
 @app.get("/verify")
