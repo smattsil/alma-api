@@ -25,6 +25,6 @@ class Subject:
     teacher: str
     gradeAsLetter: str
     gradeAsPercentage: str
-    weight: str
+    weightAsPercentage: str
     categories: list[Category]
     assignments: list[Assignment]
