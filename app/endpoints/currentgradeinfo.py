@@ -48,8 +48,11 @@ async def current_grade_info(school: str, username: str, password: str):
 
                     # getting categories and assignments
                     subject_url = f"https://{school}.getalma.com{subject.a.get('href')}"
-                    categories = group.create_task(fetch_categories(session, subject_url))
-                    assignments = group.create_task(fetch_assignments(session, subject_url))
+                    categories_task = group.create_task(fetch_categories(session, subject_url))
+                    assignments_task = group.create_task(fetch_assignments(session, subject_url))
+
+                    categories = await categories_task
+                    assignments = await assignments_task
 
                     subjects.append(
                         Subject(
