@@ -30,9 +30,7 @@ def past_gpa_info(school: str, username: str, password: str):
 
             gpas.append(PastGpa(grade, value))
 
-        final_return = {
+        return {
             "pastGpas": gpas,
             "cumulative": cumulative_gpa
         }
-
-        return final_return
