@@ -17,3 +17,11 @@ def format_address(address: str) -> str:
 
 def format_family_number(number: str) -> str:
     return number.split("FN-00")[1]
+
+
+def format_gpa_name(name: str) -> str:
+    return name.split("Grade Grade ")[1].rstrip(")")
+
+
+def format_gpa_value(gpa: str) -> str:
+    return gpa.split("(")[1].split(" ")[0]

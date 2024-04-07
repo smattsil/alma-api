@@ -2,8 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 
 from app.models.pastgpa import PastGpa
+from app.formatters.format import format_gpa_name, format_gpa_value
 
-def past_grade_info(school: str, username: str, password: str):
+
+def past_gpa_info(school: str, username: str, password: str):
 
     payload = {
         "username": username,
@@ -20,7 +22,6 @@ def past_grade_info(school: str, username: str, password: str):
         gpas = list()
 
         cumulative_gpa = soup(class_="cumulative")[0].get_text(strip=True).split("GPA: ")[1]
-        gpas.append(PastGpa("cumulative", cumulative_gpa))
 
         list_of_gpas = soup.findAll(class_="gpa-year")
         for gpa in list_of_gpas:
@@ -29,12 +30,9 @@ def past_grade_info(school: str, username: str, password: str):
 
             gpas.append(PastGpa(grade, value))
 
+        final_return = {
+            "pastGpas": gpas,
+            "cumulative": cumulative_gpa
+        }
+
         return gpas
-
-
-def format_gpa_name(name: str) -> str:
-    return name.split("Grade Grade ")[1].rstrip(")")
-
-
-def format_gpa_value(gpa: str) -> str:
-    return gpa.split("(")[1].split(" ")[0]

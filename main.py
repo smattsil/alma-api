@@ -1,7 +1,7 @@
 from typing import Union
 from app.endpoints.verify import verify
 from app.endpoints.currentgradeinfo import current_grade_info
-from app.endpoints.pastgradeinfo import past_grade_info
+from app.endpoints.pastgpainfo import past_grade_info
 from app.endpoints.studentinfo import student_info
 
 from fastapi import FastAPI
