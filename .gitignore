@@ -3,3 +3,4 @@ response_template.json
 venv
 .idea
 __pycache__
+tests
