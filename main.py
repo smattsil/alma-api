@@ -20,7 +20,7 @@ def read_item(school: str, username: str, password: str):
 
 
 @app.get("/currentgradeinfo")
-def read_item(school: str, username: str, password: str):
+async def read_item(school: str, username: str, password: str):
     return current_grade_info(school, username, password)
 
 
