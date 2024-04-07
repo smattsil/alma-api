@@ -35,4 +35,4 @@ def past_gpa_info(school: str, username: str, password: str):
             "cumulative": cumulative_gpa
         }
 
-        return gpas
+        return final_return
