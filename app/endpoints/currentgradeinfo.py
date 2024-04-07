@@ -99,9 +99,9 @@ def fetch_categories(session, url) -> list[Category]:
         name = category.h5.get_text()
         grade_and_percentage = category.find(class_="score").get_text(strip=True)
         grade_as_letter, grade_as_percentage = unpair_grade_percentage(grade_and_percentage)
-        weight = category.span.text.split("%")[0]
+        weight_as_percentage = category.span.text.split("%")[0]
 
-        categories.append(Category(name, grade_as_letter, grade_as_percentage, weight))
+        categories.append(Category(name, grade_as_letter, grade_as_percentage, weight_as_percentage))
 
     return categories
 

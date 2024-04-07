@@ -6,7 +6,7 @@ class Category:
     name: str
     gradeAsLetter: str
     gradeAsPercentage: str
-    weight: str
+    weightAsPercentage: str
 
 
 @dataclass
@@ -25,6 +25,6 @@ class Subject:
     teacher: str
     gradeAsLetter: str
     gradeAsPercentage: str
-    weightAsPercentage: str
+    weight: str
     categories: list[Category]
     assignments: list[Assignment]
