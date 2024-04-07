@@ -21,7 +21,8 @@ def read_item(school: str, username: str, password: str):
 
 @app.get("/currentgradeinfo")
 async def read_item(school: str, username: str, password: str):
-    return await current_grade_info(school, username, password)
+    shit = await current_grade_info(school, username, password)
+    return shit
 
 
 @app.get("/pastgpainfo")
