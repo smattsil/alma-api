@@ -1,34 +1,45 @@
-from typing import Union
-from app.endpoints.verify import verify
-from app.endpoints.currentgradeinfo import current_grade_info
-from app.endpoints.pastgpainfo import past_gpa_info
-from app.endpoints.studentinfo import student_info
-
 from fastapi import FastAPI
+
+from get_grades import get_grades
 
 app = FastAPI()
 
 
 @app.get("/")
-def read_root():
-    return {"Zexsys API Version": "0.0.1-async"}
+async def read_root():
+    return {"GetAlma Custom API": "v1.0.0"}
 
 
 @app.get("/verify")
-def read_item(school: str, username: str, password: str):
-    return {"authentic": verify(school, username, password)}
-
-
-@app.get("/currentgradeinfo")
 async def read_item(school: str, username: str, password: str):
-    return await current_grade_info(school, username, password)
+    return await get_grades(school, username, password)
 
 
-@app.get("/pastgpainfo")
-def read_item(school: str, username: str, password: str):
-    return past_gpa_info(school, username, password)
+@app.get("/grades")
+async def read_item(school: str, username: str, password: str):
+    return await get_grades(school, username, password)
 
 
-@app.get("/studentinfo")
-def read_item(school: str, username: str, password: str):
-    return student_info(school, username, password)
+@app.get("/subject")
+async def read_item(school: str, username: str, password: str):
+    return await get_grades(school, username, password)
+
+
+@app.get("/gpa")
+async def read_item(school: str, username: str, password: str):
+    return await get_grades(school, username, password)
+
+
+@app.get("/past-gpa")
+async def read_item(school: str, username: str, password: str):
+    return await get_grades(school, username, password)
+
+
+@app.get("/overall-info")
+async def read_item(school: str, username: str, password: str):
+    return await get_grades(school, username, password)
+
+
+@app.get("/personal-info")
+async def read_item(school: str, username: str, password: str):
+    return await get_grades(school, username, password)
