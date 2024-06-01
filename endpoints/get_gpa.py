@@ -97,7 +97,6 @@ async def get_gpa(school, username, password):
         for class_ in classes:
             class_.weight = weights[class_.name]
 
-        gpa = round((sum(float(rubric[class_.gradeAsLetter]) * float(class_.weight) for class_ in classes) / sum(
-            float(class_.weight) for class_ in classes)), 2)
+        gpa = float(round((sum(float(rubric[class_.gradeAsLetter]) * float(class_.weight) for class_ in classes) / sum(float(class_.weight) for class_ in classes)), 2))
 
         return {'live': gpa, 'history': past_gpas}
