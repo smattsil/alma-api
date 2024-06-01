@@ -1,4 +1,3 @@
-import time
 import asyncio
 from httpx import AsyncClient
 from selectolax.parser import HTMLParser
@@ -74,7 +73,7 @@ async def get_grades(school, username, password):
         'password': password
     }
 
-    async with AsyncClient() as client:
+    async with AsyncClient(timeout=None) as client:
         # logging in
         await client.post(f'https://{school}.getalma.com/login', data=payload, headers=headers)
         classes, weights = await asyncio.gather(get_classes(client, school), get_weights(client, school))
