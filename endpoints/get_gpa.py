@@ -25,7 +25,6 @@ async def get_past_gpas(client, school) -> {}:
     gpasDictionary = []
 
     for gpa in gpas:
-
         grade = gpa.css_first("h1").text(strip=True).split("Grade Grade ")[1].split(")")[0]
         value = gpa.text(strip=True).split("GPA: ")[1].split(" ")[0]
         gpasDictionary.append(Gpa(int(grade), float(value)))
@@ -70,24 +69,22 @@ async def get_classes(client, school):
     # looping through each class in the table
     for class_ in classes:
 
-        name = class_.css_first("a").text(strip=True).split(" (")[0]
+        name = class_.css_first("a").text(strip=True)
+        gradeCombo = class_.css_first("td.grade").text(strip=True)
 
-        if 'Homeroom' not in name:
-            teacher = (class_.css_first("td.teacher div").text(strip=True).split("., ")[1])
-            gradeCombo = (class_.css_first("td.grade").text(strip=True))
+        if 'Home' not in name and gradeCombo is not "-":
+            name = class_.css_first("a").text(strip=True).split(" (")[0]
+            teacher = class_.css_first("td.teacher div").text(strip=True).split("., ")[1]
             gradeAsLetter = gradeCombo.split("(")[0]
             gradeAsPercentage = int(gradeCombo.split("(")[1].split("%")[0])
-            url = (f'https://{school}.getalma.com' + class_.css_first("a").attrs['href'])
+            url = (f'https://{school}.getalma.com' + class_.css_first("a").attributes['href'])
 
-            classesList.append(
-                Class(name, teacher, gradeAsLetter, gradeAsPercentage, url, 0)
-            )
+            classesList.append(Class(name, teacher, gradeAsLetter, gradeAsPercentage, url, 0))
 
     return classesList
 
 
 async def get_gpa(school, username, password):
-
     payload = {
         'username': username,
         'password': password
@@ -100,6 +97,7 @@ async def get_gpa(school, username, password):
         for class_ in classes:
             class_.weight = weights[class_.name]
 
-        gpa = round((sum(float(rubric[class_.gradeAsLetter]) * float(class_.weight) for class_ in classes)/sum(float(class_.weight) for class_ in classes)), 2)
+        gpa = round((sum(float(rubric[class_.gradeAsLetter]) * float(class_.weight) for class_ in classes) / sum(
+            float(class_.weight) for class_ in classes)), 2)
 
         return {'live': gpa, 'history': past_gpas}
