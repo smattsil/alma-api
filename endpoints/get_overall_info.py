@@ -97,7 +97,7 @@ async def get_overall_info(school, username, password):
         for class_ in classes:
             class_.weight = weights[class_.name]
 
-        gpa = float(round((sum(float(rubric[class_.gradeAsLetter]) * float(class_.weight) for class_ in classes) / sum(float(class_.weight) for class_ in classes)), 2))
+        gpa = str(float(round((sum(float(rubric[class_.gradeAsLetter]) * float(class_.weight) for class_ in classes) / sum(float(class_.weight) for class_ in classes)), 2)))
         amountOfAPlus = sum(1 for class_ in classes if class_.gradeAsLetter == "A+")
         sumOfGrades = float(sum(class_.gradeAsPercentage for class_ in classes))
         totalPossible = len(classes) * 100.0
