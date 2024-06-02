@@ -3,5 +3,5 @@ from dataclasses import dataclass
 
 @dataclass
 class Gpa:
-    grade: int
-    value: float
+    grade: str
+    value: str

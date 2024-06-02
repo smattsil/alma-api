@@ -27,7 +27,7 @@ async def get_past_gpas(client, school) -> {}:
     for gpa in gpas:
         grade = gpa.css_first("h1").text(strip=True).split("Grade Grade ")[1].split(")")[0]
         value = gpa.text(strip=True).split("GPA: ")[1].split(" ")[0]
-        gpasDictionary.append(Gpa(int(grade), float(value)))
+        gpasDictionary.append(Gpa(grade, value))
 
     return gpasDictionary
 
@@ -97,6 +97,6 @@ async def get_gpa(school, username, password):
         for class_ in classes:
             class_.weight = weights[class_.name]
 
-        gpa = float(round((sum(float(rubric[class_.gradeAsLetter]) * float(class_.weight) for class_ in classes) / sum(float(class_.weight) for class_ in classes)), 2))
+        gpa = str(float(round((sum(float(rubric[class_.gradeAsLetter]) * float(class_.weight) for class_ in classes) / sum(float(class_.weight) for class_ in classes)), 2)))
 
         return {'live': gpa, 'history': past_gpas}
