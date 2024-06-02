@@ -1,8 +1,6 @@
 import asyncio
 from selectolax.parser import HTMLParser
-
 from httpx import AsyncClient
-
 from models.student import Student
 
 headers = {
@@ -11,7 +9,6 @@ headers = {
 
 
 async def get_personal_info(school, username, password):
-
     payload = {
         'username': username,
         'password': password
@@ -26,21 +23,21 @@ async def get_personal_info(school, username, password):
         # parsing the response from httpx
         html = HTMLParser(resp.text)
 
-        infos = html.css("dd.view")
+        informationList = html.css("dd")
 
-        # creating an empty list
-        infoList = []
+        name = informationList[0].text(strip=True).split("  ")[0]
+        preferred = informationList[1].text(strip=True)
+        phone = informationList[2].text(strip=True)
+        email = informationList[3].text(strip=True)
+        address = informationList[4].text(strip=True).split("Indonesia")[0]
+        schoolId = informationList[5].text(strip=True)
+        districtId = informationList[6].text(strip=True)
+        stateId = informationList[7].text(strip=True)
 
-        for info in infos:
-            if info.text(strip=True) is not "":
-                infoList.append(info.text(strip=True))
+        # fix this!!! this stuff might break...
+        lockerNumber = str(int(informationList[8].text(strip=True)))
+        lunchNumber = informationList[9].text(strip=True)
+        familyNumber = str(int(informationList[10].text(strip=True).split("-")[1]))
 
-        name = infoList[0].split("  ")[0]
-        email = infoList[1]
-        locker = str(int(infoList[4]))
-        family = str(int(infoList[5].split("-")[1]))
-
-        addressList = html.css("div.address p")
-        address = f'{addressList[0].text(strip=True).split("Indonesia")[0]}'
-
-        return Student(name, email, family, locker, address)
+        return Student(name, preferred, phone, email, address, schoolId, districtId, stateId, lockerNumber, lunchNumber,
+                       familyNumber)

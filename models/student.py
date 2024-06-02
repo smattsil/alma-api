@@ -3,7 +3,13 @@ from dataclasses import dataclass
 @dataclass
 class Student:
     name: str
+    preferred: str
+    phone: str
     email: str
-    family: str
-    locker: str
     address: str
+    schoolId: str
+    districtId: str
+    stateId: str
+    lockerNumber: str
+    lunchNumber: str
+    familyNumber: str
