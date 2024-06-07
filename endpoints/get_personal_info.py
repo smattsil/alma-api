@@ -23,21 +23,27 @@ async def get_personal_info(school, username, password):
         # parsing the response from httpx
         html = HTMLParser(resp.text)
 
-        informationList = html.css("dd")
+        keys = html.css("dt")
+        infos = [await getCleanString(key) for key in keys]
 
-        name = informationList[0].text(strip=True).split("  ")[0]
-        preferred = informationList[1].text(strip=True)
-        phone = informationList[2].text(strip=True)
-        email = informationList[3].text(strip=True)
-        address = informationList[4].text(strip=True).split("Indonesia")[0]
-        schoolId = informationList[5].text(strip=True)
-        districtId = informationList[6].text(strip=True)
-        stateId = informationList[7].text(strip=True)
+        return Student(
+            infos[0],
+            infos[1],
+            infos[2],
+            infos[3],
+            infos[4],
+            infos[5],
+            infos[6],
+            infos[7],
+            infos[8],
+            infos[9],
+            infos[10]
+        )
 
-        # fix this!!! this stuff might break...
-        lockerNumber = str(int(informationList[8].text(strip=True)))
-        lunchNumber = informationList[9].text(strip=True)
-        familyNumber = str(int(informationList[10].text(strip=True).split("-")[1]))
 
-        return Student(name, preferred, phone, email, address, schoolId, districtId, stateId, lockerNumber, lunchNumber,
-                       familyNumber)
+async def getCleanString(html):
+    try:
+        information = html.next.next.text(strip=True)
+        return information.split("  .")[0].split("Indonesia")[0]
+    except:
+        return ""

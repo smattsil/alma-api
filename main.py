@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from endpoints.get_attendance import get_attendance
 from endpoints.get_gpa import get_gpa
 from endpoints.get_overall_info import get_overall_info
 from endpoints.get_personal_info import get_personal_info
@@ -42,3 +43,7 @@ async def read_item(school: str, username: str, password: str):
 @app.get("/personal-info")
 async def read_item(school: str, username: str, password: str):
     return await get_personal_info(school, username, password)
+
+@app.get("/attendance")
+async def read_item(school: str, username: str, password: str):
+    return await get_attendance(school, username, password)
