@@ -2,15 +2,23 @@ import aiohttp
 import asyncio
 from selectolax.parser import HTMLParser
 
+from models.rubric import rubric
 from models.grade import Grade
 
-async def grades(sch, usr, pwd):
+async def gpa(sch, usr, pwd):
     async with aiohttp.ClientSession(f"https://{sch}.getalma.com") as session:
         await session.post("/login", data = {"username": usr, "password": pwd})
-        grades, weightDictionary = await asyncio.gather(classes(session), weights(session))
+        grades, weightDictionary, cumulative = await asyncio.gather(classes(session), weights(session), cumulativeGpa(session))
         for grade in grades:
             grade.weight = weightDictionary[grade.name]
-        return grades
+        gpa = str(float(round((sum(float(rubric[grade.letter]) * float(grade.weight) for grade in grades) / sum(float(grade.weight) for grade in grades)), 2)))
+        return {"current": gpa, "cumulative": cumulative}
+
+async def cumulativeGpa(session):
+    async with session.get("/home/transcript") as resp:
+        html = HTMLParser(await resp.text())
+        cumGpa = html.css_first(".cumulative").text(strip=True).split("GPA: ")[1]
+        return cumGpa
 
 async def classes(session):
     async with session.get("/home/schedule?view=list") as resp:
@@ -22,7 +30,7 @@ async def classes(session):
             teacher = class_.css_first(".teacher").text(strip=True)
             grade = class_.css_first(".grade").text(strip=True)
             path = class_.css_first("a").attrs["href"]
-            if "Homeroom" in name: continue
+            if "Homeroom" in name or grade == "-": continue
             classes.append(Grade(formatName(name), formatTeacher(teacher), formatPercent(grade), formatLetter(grade), "", formatPath(path)))
         return classes
 

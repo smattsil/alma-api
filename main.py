@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import FastAPI, Header
 
 # alma-api function libraries
+from endpoints.gpa import gpa
 from endpoints.authenticity import authenticity
 from endpoints.grades import grades
 
@@ -19,3 +20,8 @@ async def read_item(school: Annotated[str, Header()], username: Annotated[str, H
 @app.get("/grades")
 async def read_item(school: Annotated[str, Header()], username: Annotated[str, Header()], password: Annotated[str, Header()]):
     return await grades(school, username, password)
+
+@app.get("/gpa")
+async def read_item(school: Annotated[str, Header()], username: Annotated[str, Header()], password: Annotated[str, Header()]):
+    return await gpa(school, username, password)
+    
