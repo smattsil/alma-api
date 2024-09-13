@@ -4,3 +4,4 @@
 </a>
 
 - please refer to the [documentation](https://alma-api.onrender.com/docs) for the different possible endpoints and header parameters.
+- data is fetched with python using aiohttp, asynchronously, and then parsed using selectolax and HTMLParser. lastly, it is fed back to the user through the API using FastAPI.
