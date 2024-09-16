@@ -4,6 +4,6 @@ from dataclasses import dataclass
 class Overall:
     username: str
     fullName: str
-    rankedRating: str
+    rankedRating: int
     gpa: str
     lastUpdated: str

@@ -32,7 +32,7 @@ async def ranked_rating(session):
             percent = percent.text(strip=True)
             percentages.append(int(formatPercent(percent)))
         rr = (sum(percentages) / len(percentages)) * 10
-        return str(int(rr))
+        return int(rr)
 
 async def classes(session):
     async with session.get("/home/schedule?view=list") as resp:
