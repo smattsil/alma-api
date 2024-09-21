@@ -35,9 +35,10 @@ async def subject(sch, usr, pwd, path):
                 assCat = assignment.css_first(".name small").text(strip=True)
                 try: 
                     assPercent = assignment.css_first(".percent").text(strip=True) 
+                    assDate = assignment.css_first(".updated").text(strip=True)
                 except: 
-                    assPercent = ""
-                assDate = assignment.css_first(".updated").text(strip=True)
+                    assPercent = "-"
+                    assDate = "-"
                 assignments.append(Assignment(assName, assCat, formatPercent(assPercent), assDate))
 
             return Subject(formatName(name), formatTeacher(teacher), formatLetter(grade), formatPercent(grade), categories, assignments)
