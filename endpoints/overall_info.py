@@ -15,7 +15,8 @@ async def overall_info(sch, usr, pwd):
             grade.weight = weightDictionary[grade.name]
         gpa = str(float(round((sum(float(rubric[grade.letter]) * float(grade.weight) for grade in grades) / sum(float(grade.weight) for grade in grades)), 2)))
         today = date.today()
-        return Overall(usr, fullName, rankedRating, gpa, f"{today.month}/{today.day}/{today.year}")
+        weightedRankedrating = int(round(rankedRating * ((float(gpa)/4.0))))
+        return Overall(usr, fullName, weightedRankedrating, gpa, f"{today.month}/{today.day}/{today.year}")
 
 async def full_name(session):
     async with session.get("/home") as resp:
