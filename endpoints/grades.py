@@ -15,7 +15,7 @@ async def grades(sch, usr, pwd):
 async def classes(session):
     async with session.get("/home/schedule?view=list") as resp:
         html = HTMLParser(await resp.text())
-        enrolledClassTable = html.css_first("tbody")
+        enrolledClassTable = html.css_first(".enrolled-classes")
         listOfClasses = enrolledClassTable.css(".nav-class")
         classes  = []
         for class_ in listOfClasses:
